@@ -1,8 +1,9 @@
-const axios = require('axios');
-const cheerio = require('cheerio');
-const pLimit = require('p-limit');
-const pSettle = require('p-settle');
-const {IMDB_NAME_URL, IMDB_URL, P_LIMIT} = require('./constants');
+const axios = require("axios");
+const cheerio = require("cheerio");
+const pLimit = require("p-limit");
+const pSettle = require("p-settle");
+const { IMDB_NAME_URL, IMDB_URL, P_LIMIT } = require("./constants");
+const { MongoClient } = require("mongodb");
 
 /**
  * Get filmography for a given actor
@@ -12,14 +13,14 @@ const {IMDB_NAME_URL, IMDB_URL, P_LIMIT} = require('./constants');
 const getFilmography = async actor => {
   try {
     const response = await axios(`${IMDB_NAME_URL}/${actor}`);
-    const {data} = response;
+    const { data } = response;
     const $ = cheerio.load(data);
 
-    return $('#filmo-head-actor + .filmo-category-section .filmo-row b a')
+    return $("#filmo-head-actor + .filmo-category-section .filmo-row b a")
       .map((i, element) => {
         return {
-          'link': `${IMDB_URL}${$(element).attr('href')}`,
-          'title': $(element).text()
+          link: `${IMDB_URL}${$(element).attr("href")}`,
+          title: $(element).text()
         };
       })
       .get();
@@ -37,32 +38,54 @@ const getFilmography = async actor => {
 const getMovie = async link => {
   try {
     const response = await axios(link);
-    const {data} = response;
+    const { data } = response;
     const $ = cheerio.load(data);
 
     return {
       link,
-      'id': $('meta[property="pageId"]').attr('content'),
-      'metascore': Number($('.metacriticScore span').text()),
-      'poster': $('.poster img').attr('src'),
-      'rating': Number($('span[itemprop="ratingValue"]').text()),
-      'synopsis': $('.summary_text')
+      _id: $('meta[property="pageId"]').attr("content"),
+      metascore: Number($(".metacriticScore span").text()),
+      poster: $(".poster img").attr("src"),
+      rating: Number($('span[itemprop="ratingValue"]').text()),
+      synopsis: $(".summary_text")
         .text()
         .trim(),
-      'title': $('.title_wrapper h1')
+      title: $(".title_wrapper h1")
         .text()
         .trim(),
-      'votes': Number(
+      votes: Number(
         $('span[itemprop="ratingCount"]')
           .text()
-          .replace(',', '.')
+          .replace(",", ".")
       ),
-      'year': Number($('#titleYear a').text())
+      year: Number($("#titleYear a").text())
     };
   } catch (error) {
     console.error(error);
     return {};
   }
+};
+
+const uri =
+  "mongodb+srv://dbUser:dbUser@cluster0-yyq1x.mongodb.net/test?retryWrites=true&w=majority";
+
+const save_movies_to_db = async movies_to_add => {
+  const client = new MongoClient(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });
+  return new Promise((resolve, reject) => {
+    client.connect(err => {
+      if (err) reject(err);
+      const collection = client.db("denzel").collection("movies");
+      collection.deleteMany({}, () => {
+        collection.insertMany(movies_to_add, () => {
+          client.close();
+          resolve();
+        });
+      });
+    });
+  });
 };
 
 /**
@@ -85,5 +108,10 @@ module.exports = async actor => {
     .filter(result => result.isFulfilled)
     .map(result => result.value);
 
+  const movies_to_add = [].concat.apply([], isFulfilled);
+  if (movies_to_add.length > 0) {
+    console.log(movies_to_add);
+    await save_movies_to_db(movies_to_add);
+  }
   return [].concat.apply([], isFulfilled);
 };

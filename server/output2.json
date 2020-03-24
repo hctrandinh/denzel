@@ -1,0 +1,46 @@
+[
+  {
+    "link": "https://www.imdb.com/title/tt2671706/?ref_=nm_flmg_act_5",
+    "_id": "tt2671706",
+    "metascore": 79,
+    "poster": "https://m.media-amazon.com/images/M/MV5BOTg0Nzc1NjA0MV5BMl5BanBnXkFtZTgwNTcyNDQ0MDI@._V1_UX182_CR0,0,182,268_AL_.jpg",
+    "rating": 7.2,
+    "synopsis": "A working-class African-American father tries to raise his family in the 1950s, while coming to terms with the events of his life.",
+    "title": "Fences (2016)",
+    "votes": 92.261,
+    "year": 2016
+  },
+  {
+    "link": "https://www.imdb.com/title/tt0115956/?ref_=nm_flmg_act_33",
+    "_id": "tt0115956",
+    "metascore": 77,
+    "poster": "https://m.media-amazon.com/images/M/MV5BODJlOTlkNzUtN2U2OC00NWUxLTg3MjgtNGVmZGU5ZTk0ZjM4XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_UX182_CR0,0,182,268_AL_.jpg",
+    "rating": 6.6,
+    "synopsis": "A U.S. Army officer, despondent about a deadly mistake he made, investigates a female chopper commander's worthiness for the Medal of Honor.",
+    "title": "À l'épreuve du feu (1996)",
+    "votes": 48.377,
+    "year": 1996
+  },
+  {
+    "link": "https://www.imdb.com/title/tt0112857/?ref_=nm_flmg_act_34",
+    "_id": "tt0112857",
+    "metascore": 78,
+    "poster": "https://m.media-amazon.com/images/M/MV5BNjI3NjFiNmMtMmQ1ZC00OTUwLWJlMWMtM2UxY2M2NDQ0OWJhXkEyXkFqcGdeQXVyNTI4MjkwNjA@._V1_UX182_CR0,0,182,268_AL_.jpg",
+    "rating": 6.7,
+    "synopsis": "An African-American man is hired to find a woman, and gets mixed up in a murderous political scandal.",
+    "title": "Le diable en robe bleue (1995)",
+    "votes": 16.605,
+    "year": 1995
+  },
+  {
+    "link": "https://www.imdb.com/title/tt0097441/?ref_=nm_flmg_act_46",
+    "_id": "tt0097441",
+    "metascore": 78,
+    "poster": "https://m.media-amazon.com/images/M/MV5BODhlNjA5MDEtZDVhNS00ZmM3LTg1YzAtZGRjNjhjNTAzNzVkXkEyXkFqcGdeQXVyNjUwMzI2NzU@._V1_UY268_CR1,0,182,268_AL_.jpg",
+    "rating": 7.8,
+    "synopsis": "Robert Gould Shaw leads the U.S. Civil War's first all-black volunteer company, fighting prejudices from both his own Union Army, and the Confederates.",
+    "title": "Glory (1989)",
+    "votes": 116.001,
+    "year": 1989
+  }
+]

@@ -3,6 +3,8 @@ const imdb = require('./imdb');
 const DENZEL_IMDB_ID = 'nm0000243';
 const METASCORE = 77;
 
+var output1;
+var output2;
 async function start (actor = DENZEL_IMDB_ID, metascore = METASCORE) {
   try {
     console.log(`📽️  fetching filmography of ${actor}...`);
@@ -11,15 +13,43 @@ async function start (actor = DENZEL_IMDB_ID, metascore = METASCORE) {
 
     console.log(`🍿 ${movies.length} movies found.`);
     console.log(JSON.stringify(movies, null, 2));
+
     console.log(`🥇 ${awesome.length} awesome movies found.`);
     console.log(JSON.stringify(awesome, null, 2));
-    process.exit(0);
+
+    output1 = JSON.stringify(movies, null, 2);
+    output2 = JSON.stringify(awesome, null, 2);
+
   } catch (e) {
     console.error(e);
-    process.exit(1);
   }
 }
 
 const [, , id, metascore] = process.argv;
 
-start(id, metascore);
+start(id, metascore).then(() => {
+require("fs").writeFile(
+    "./server/output1.json",
+
+    output1,
+
+    function(err) {
+      if (err) {
+        console.error("Crap happens");
+      }
+    }
+  );
+
+require("fs").writeFile(
+    "./server/output2.json",
+
+    output2,
+
+    function(err) {
+      if (err) {
+        console.error("Crap happens");
+      }
+    }
+  );
+});
+
