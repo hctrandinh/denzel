@@ -123,7 +123,38 @@ app.listen(PORT);
 console.log(`📡 Running on port ${PORT}`);
 ```
 
+## Get
+
 ### /
 
 To check if the server is up !
 ![image](./assets/img1.png)
+
+### /movies/populate/:id
+
+Search your favorite actor id on imdb to replace the current movies inside the db and display those you want.
+
+### /movies
+
+Fetch those awesome movies only !
+![image](./assets/img2.png)
+
+### /movies/random
+
+Fetch a random movie !
+![image](./assets/img5.png)
+
+Fetch a specific number of movies and with a minimum metascore value !
+![image](./assets/img4.png)
+
+### /movies/random
+
+Fetch a random movie !
+![image](./assets/img5.png)
+
+## Post
+
+### /movies/random
+
+Post a review for your movie !
+![image](./assets/img6.png)
