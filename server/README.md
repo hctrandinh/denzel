@@ -133,6 +133,31 @@ To check if the server is up !
 ### /movies/populate/:id
 
 Search your favorite actor id on imdb to replace the current movies inside the db and display those you want.
+It's updated on Mongodb Atlas using this method:
+
+```javascript
+const uri =
+  "mongodb+srv://dbUser:dbUser@cluster0-yyq1x.mongodb.net/test?retryWrites=true&w=majority";
+
+const save_movies_to_db = async movies_to_add => {
+  const client = new MongoClient(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });
+  return new Promise((resolve, reject) => {
+    client.connect(err => {
+      if (err) reject(err);
+      const collection = client.db("denzel").collection("movies");
+      collection.deleteMany({}, () => {
+        collection.insertMany(movies_to_add, () => {
+          client.close();
+          resolve();
+        });
+      });
+    });
+  });
+};
+```
 
 ### /movies
 
