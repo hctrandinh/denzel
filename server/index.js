@@ -56,7 +56,8 @@ app.get("/movies/:id", function(request, response) {
     useNewUrlParser: true,
     useUnifiedTopology: true
   });
-  if (limit != null && metascore != null) {
+  if (limit >= 0 && metascore >= 0) {
+    console.log("Searching those ones !");
     client.connect(async () => {
       const collection = client.db("denzel").collection("movies");
       const movies = await collection
@@ -69,6 +70,7 @@ app.get("/movies/:id", function(request, response) {
     });
   } else {
     client.connect(async () => {
+      console.log("Searching this one !");
       const collection = client.db("denzel").collection("movies");
       const movie = await collection.findOne({ _id: id });
       response.send(movie);

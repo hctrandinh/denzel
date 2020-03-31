@@ -4,6 +4,30 @@
 In this section, we will show you all available endpoints in our index.js:
 
 ```javascript
+const cors = require("cors");
+const express = require("express");
+const helmet = require("helmet");
+const { PORT } = require("./constants");
+const imdb = require("./imdb");
+const { MongoClient } = require("mongodb");
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
+const uri =
+  "mongodb+srv://dbUser:dbUser@cluster0-yyq1x.mongodb.net/test?retryWrites=true&w=majority";
+
+const app = express();
+
+module.exports = app;
+
+app.use(require("body-parser").json());
+app.use(cors());
+app.use(helmet());
+
+app.options("*", cors());
+
 app.get("/", (request, response) => {
   response.send({ ack: true });
 });
@@ -38,7 +62,8 @@ app.get("/movies/:id", function(request, response) {
     useNewUrlParser: true,
     useUnifiedTopology: true
   });
-  if (limit != null && metascore != null) {
+  if (limit >= 0 && metascore >= 0) {
+    console.log("Searching those ones !");
     client.connect(async () => {
       const collection = client.db("denzel").collection("movies");
       const movies = await collection
@@ -51,6 +76,7 @@ app.get("/movies/:id", function(request, response) {
     });
   } else {
     client.connect(async () => {
+      console.log("Searching this one !");
       const collection = client.db("denzel").collection("movies");
       const movie = await collection.findOne({ _id: id });
       response.send(movie);
@@ -92,4 +118,7 @@ app.post("/movies/:id", function(request, response) {
     response.send(result);
   });
 });
+
+app.listen(PORT);
+console.log(`📡 Running on port ${PORT}`);
 ```
