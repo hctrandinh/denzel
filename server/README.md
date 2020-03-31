@@ -122,3 +122,8 @@ app.post("/movies/:id", function(request, response) {
 app.listen(PORT);
 console.log(`📡 Running on port ${PORT}`);
 ```
+
+### /
+
+To check if the server is up !
+![image](./assets/img1.png)
