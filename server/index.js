@@ -5,6 +5,10 @@ const { PORT } = require("./constants");
 const imdb = require("./imdb");
 const { MongoClient } = require("mongodb");
 
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
 const uri =
   "mongodb+srv://dbUser:dbUser@cluster0-yyq1x.mongodb.net/test?retryWrites=true&w=majority";
 
@@ -70,6 +74,22 @@ app.get("/movies/:id", function(request, response) {
       response.send(movie);
     });
   }
+});
+
+app.get("/random", function(request, response) {
+  const client = new MongoClient(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });
+  client.connect(async () => {
+    const collection = client.db("denzel").collection("movies");
+    const all_movies = await collection.find({}).toArray();
+    const options = {
+      skip: getRandomInt(all_movies.length)
+    };
+    const movie = await collection.findOne({}, options);
+    response.send({ movies_qt: all_movies.length, your_movie: movie });
+  });
 });
 
 app.post("/movies/:id", function(request, response) {

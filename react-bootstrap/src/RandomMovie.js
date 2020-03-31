@@ -1,8 +1,128 @@
 import React from "react";
+import "./GradientBorder.css";
+const axios = require("axios");
 
-export const RandomMovie = () => (
-  <div>
-    <h2>This one you need to watch !</h2>
-    <p>Here are some amazing movies !</p>
-  </div>
-);
+var json_data;
+async function get_movie() {
+  var response = await axios.get("http://localhost:9292/random");
+  json_data = [response.data.your_movie];
+  console.log(JSON.stringify(json_data));
+}
+
+var data_test = [
+  {
+    _id: "",
+    link: "",
+    metascore: 0,
+    poster: "",
+    rating: 0,
+    synopsis: "",
+    title: "",
+    votes: 0,
+    year: 0
+  }
+];
+
+export class RandomMovie extends React.Component {
+  constructor(props) {
+    super(props);
+    (async () => {
+      await get_movie();
+      console.log("Data: " + json_data);
+      this.forceUpdate();
+    })();
+  }
+  render() {
+    if (json_data != null) {
+      console.log("Data found !");
+      return (
+        <div>
+          <h2>Don't worry, it's at least good !</h2>
+          {json_data.map((data_details, index) => {
+            return (
+              <div className="gradient-border">
+                <img src={data_details.poster} alt="new" />
+                <p>
+                  <b>Id: </b>
+                  {data_details._id}
+                </p>
+                <p>
+                  <b>Link: </b>
+                  {data_details.link}
+                </p>
+                <p>
+                  <b>Metascore: </b>
+                  {data_details.metascore}
+                </p>
+                <p>
+                  <b>Rating: </b>
+                  {data_details.rating}
+                </p>
+                <p>
+                  <b>Synopsis: </b>
+                  {data_details.synospsis}
+                </p>
+                <p>
+                  <b>Title: </b>
+                  {data_details.title}
+                </p>
+                <p>
+                  <b>Votes: </b>
+                  {data_details.votes}
+                </p>
+                <p>
+                  <b>Year: </b>
+                  {data_details.year}
+                </p>
+              </div>
+            );
+          })}
+        </div>
+      );
+    }
+    return (
+      <div>
+        <h2>Loading random movie for you...</h2>
+        {data_test.map((data_details, index) => {
+          return (
+            <div className="gradient-border">
+              <img src={data_details.poster} alt="new" />
+              <p>
+                <b>Id: </b>
+                {data_details._id}
+              </p>
+              <p>
+                <b>Link: </b>
+                {data_details.link}
+              </p>
+              <p>
+                <b>Metascore: </b>
+                {data_details.metascore}
+              </p>
+              <p>
+                <b>Rating: </b>
+                {data_details.rating}
+              </p>
+              <p>
+                <b>Synopsis: </b>
+                {data_details.synospsis}
+              </p>
+              <p>
+                <b>Title: </b>
+                {data_details.title}
+              </p>
+              <p>
+                <b>Votes: </b>
+                {data_details.votes}
+              </p>
+              <p>
+                <b>Year: </b>
+                {data_details.year}
+              </p>
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+}
